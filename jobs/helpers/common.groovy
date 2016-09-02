@@ -1,8 +1,10 @@
-def static addColorAndTimestampWrappers() {
+package helpers
+
+static addColorAndTimestampWrappers() {
   { -> colorizeOutput(); timestamps() }
 }
 
-def static listViewColumnConfiguration() {
+static listViewColumnConfiguration() {
   { ->
     status()
     weather()
@@ -14,7 +16,7 @@ def static listViewColumnConfiguration() {
   }
 }
 
-def static addPostBuildScript(script) {
+static addPostBuildScript(script) {
   { project ->
     project / publishers << 'org.jenkinsci.plugins.postbuildscript.PostBuildScript' {
       buildSteps {
@@ -28,7 +30,7 @@ def static addPostBuildScript(script) {
   }
 }
 
-def static addEnvironmentInjectFilePath(filePath) {
+static addEnvironmentInjectFilePath(filePath) {
   { project ->
     project / publishers << 'org.jenkinsci.plugins.postbuildscript.PostBuildScript' {
       buildSteps {
@@ -42,7 +44,7 @@ def static addEnvironmentInjectFilePath(filePath) {
   }
 }
 
-def static addProjectConfiguration() {
+static addProjectConfiguration() {
   { project ->
     (project / 'quietPeriod').setValue(0)
     (project / 'disabled').setValue(false)

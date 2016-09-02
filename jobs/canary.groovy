@@ -1,4 +1,4 @@
-import ../helpers/common.*
+import static helpers.common.*
 
 job('canary') {
 }
