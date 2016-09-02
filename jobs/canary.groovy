@@ -1,4 +1,4 @@
 import ../helpers/common.*
 
-job('dummy') {
+job('canary') {
 }
