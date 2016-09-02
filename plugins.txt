@@ -1,4 +1,5 @@
 ansicolor
 greenballs
-job-dsl
 groovy-postbuild
+job-dsl
+pipeline
