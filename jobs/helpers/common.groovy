@@ -16,6 +16,10 @@ static listViewColumnConfiguration() {
   }
 }
 
+static addBuildScript(script) {
+  { -> shell(script) }
+}
+
 static addPostBuildScript(script) {
   { project ->
     project / publishers << 'org.jenkinsci.plugins.postbuildscript.PostBuildScript' {
