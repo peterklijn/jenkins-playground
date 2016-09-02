@@ -1,5 +1,0 @@
-ansicolor
-greenballs
-groovy-postbuild
-job-dsl
-pipeline
