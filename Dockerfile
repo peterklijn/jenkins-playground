@@ -11,15 +11,19 @@ RUN /usr/local/bin/install-plugins.sh ansicolor \
                                          workflow-aggregator \
                                          ws-cleanup
 
+ENV DEMO_JOB_DIR="/opt/bin/jobs/" \
+    SEED_JOB_WORKSPACE_DIR="/var/jenkins_home/jobs/seed/workspace/"
+
 RUN mkdir -p /var/jenkins_home/init.groovy.d/ \
     && mkdir -p /var/jenkins_home/jobs/seed/workspace/helpers
 
 COPY config.sh /opt/bin/config.sh
+
 COPY jenkins-config/basic-security.groovy /var/jenkins_home/init.groovy.d/basic-security.groovy
 
-COPY jobs/seed.xml /var/jenkins_home/jobs/seed/config.xml
-COPY jobs/canary.groovy /var/jenkins_home/jobs/seed/workspace/canary.groovy
-COPY jobs/helpers/common.groovy /var/jenkins_home/jobs/seed/workspace/helpers/common.groovy
+COPY jenkins-seedjob-config.xml /var/jenkins_home/jobs/seed/config.xml
+
+COPY jobs/ $DEMO_JOB_DIR
 
 RUN chmod +x /opt/bin/config.sh
 

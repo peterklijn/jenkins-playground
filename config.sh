@@ -1,26 +1,39 @@
 sh -c /usr/local/bin/jenkins.sh &
 
-wait_for () {
-  URL=$1
-  while true; do
-    echo "Waiting for: $URL ..."
-    curl -s "$URL" > /dev/null
-    if [ "$?" -eq "0" ]; then
-      break
-    fi
-    sleep 1
-  done
-}
-
-wait_for "http://localhost:8080/cli/"
-
-WOKRSPACE_PATH="/var/jenkins_home/jobs/seed/workspace/"
-
-OLD_VALUE=""
+JENKINS_STARTING_TEXT="Please wait while Jenkins is getting ready to work"
 
 while true; do
+  echo "Waiting for Jenkins to respond..."
+  curl -s "http://localhost:8080/cli/" > /dev/null
+  if [ "$?" -eq "0" ]; then
+    break
+  fi
+  sleep 1
+done
 
-  NEW_VALUE=`(ls -lFR $WOKRSPACE_PATH | grep -E '.*[^/:]$' | grep -v -E 'total \d+' | awk '{print $6 $7 $8 $9}' | tr '\n' '-')`
+while true; do
+  echo "Waiting for Jenkins to be fully up and running..."
+  curl -s "http://localhost:8080/cli/" | grep "${JENKINS_STARTING_TEXT}" > /dev/null
+  if [ "$?" -ne "0" ]; then
+    break
+  fi
+  sleep 1
+done
+
+# Check if seed workspace is empty
+LINES_OF_FILES_IN_SEED_WORKSPACE=`ls -A ${SEED_JOB_WORKSPACE_DIR} | wc -w | awk {'print $1'}`
+# Copy all demo files if workspace is empty
+if [ "${LINES_OF_FILES_IN_SEED_WORKSPACE}" -eq "0" ]; then
+  echo "Copying demo files to workspace dir..."
+  cp -r ${DEMO_JOB_DIR}* ${SEED_JOB_WORKSPACE_DIR}
+fi
+
+
+# Check for file changes every second:
+OLD_VALUE=""
+while true; do
+
+  NEW_VALUE=`(ls -lFR ${SEED_JOB_WORKSPACE_DIR} | grep -E '.*[^/:]$' | grep -v -E 'total \d+' | awk '{print $6 $7 $8 $9}' | tr '\n' '-')`
 
   if [ "${OLD_VALUE}" != "${NEW_VALUE}" ]; then
     curl -s -X POST localhost:8080/job/seed/build --user admin:admin > /dev/null
