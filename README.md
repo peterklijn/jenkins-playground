@@ -2,7 +2,11 @@
 
 ## Pre-installed plugins
 
-* AnsiColor
-* Green Balls
-* Job DSL
-* Groovy PostBuild
+* ansicolor
+* greenballs
+* groovy-postbuild
+* rebuild
+* postbuildscript
+* job-dsl
+* workflow-aggregator
+* ws-cleanup
