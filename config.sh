@@ -20,6 +20,13 @@ while true; do
   sleep 1
 done
 
+if [ `ls ${SEED_JOB_WORKSPACE_DIR}` ]; then
+  echo "Folder ${SEED_JOB_WORKSPACE_DIR} seems to exist"
+else
+  echo "Folder ${SEED_JOB_WORKSPACE_DIR} doesn't exist, let's create it.."
+  mkdir -p ${SEED_JOB_WORKSPACE_DIR}
+fi
+
 # Check if seed workspace is empty
 LINES_OF_FILES_IN_SEED_WORKSPACE=`ls -A ${SEED_JOB_WORKSPACE_DIR} | wc -w | awk {'print $1'}`
 # Copy all demo files if workspace is empty
