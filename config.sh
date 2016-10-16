@@ -1,3 +1,10 @@
+if [ -n "$ADDITIONAL_PLUGINS" ]; then
+  echo "Additional plugins requested: $ADDITIONAL_PLUGINS"
+  /usr/local/bin/install-plugins.sh $ADDITIONAL_PLUGINS
+else
+  echo "No additional plugins specified.."
+fi
+
 sh -c /usr/local/bin/jenkins.sh &
 
 JENKINS_STARTING_TEXT="Please wait while Jenkins is getting ready to work"

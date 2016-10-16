@@ -15,6 +15,15 @@ Now two things can happen:
 
 Everytime a file changes in that folder, the seedjob will automatically trigger, happy coding :)
 
+## Additional plugins
+
+Are the [standard set of plugins](#pre-installed-plugins) not sufficient? Add some more with the `ADDITIONAL_PLUGINS` environment variable.
+
+```
+docker run -p 8080:8080 -v ~/ws:/seed/workspace -e ADDITIONAL_PLUGINS="chucknorris" xebia/jenkins-playground:2.7.3-1
+```
+You can add multiple plugins by separating the plugin ID's with a space.
+
 ## Conventions
 
 Please keep to the following conventions:
