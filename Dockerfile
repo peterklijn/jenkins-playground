@@ -1,15 +1,10 @@
-FROM jenkins:2.7.3
+FROM jenkins/jenkins:2.204.4
 
 USER root
 
-RUN /usr/local/bin/install-plugins.sh ansicolor \
-                                         greenballs \
-                                         groovy-postbuild \
-                                         rebuild \
-                                         postbuildscript \
-                                         job-dsl \
-                                         workflow-aggregator \
-                                         ws-cleanup
+RUN /usr/local/bin/install-plugins.sh \
+                                     rebuild \
+                                     job-dsl
 
 ENV DEMO_JOB_DIR="/opt/bin/jobs/" \
     SEED_JOB_WORKSPACE_DIR="/var/jenkins_home/jobs/seed/workspace/"
@@ -30,4 +25,4 @@ RUN chmod +x /opt/bin/config.sh
 
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 
-ENTRYPOINT ["/bin/tini", "--", "/opt/bin/config.sh"]
+ENTRYPOINT ["/sbin/tini", "--", "/opt/bin/config.sh"]
